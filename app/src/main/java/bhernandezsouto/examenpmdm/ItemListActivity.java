@@ -77,6 +77,13 @@ public class ItemListActivity extends AppCompatActivity
      */
     @Override
     public void onItemSelected(String id) {
+        // se recoge el valor de dual_pane desde el archivo config y si es verdadero se imprime un toast
+        // que imprimira tumbado
+        Boolean bool = getResources().getBoolean(R.bool.dual_pane);
+        if (bool) {
+            Toast.makeText(ItemListActivity.this, "Tumbado",
+                    Toast.LENGTH_SHORT).show();
+        }
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
@@ -99,18 +106,19 @@ public class ItemListActivity extends AppCompatActivity
             startActivityForResult(detailIntent, 1);
         }
     }
+
     @Override
     // Sobreescribimos el metodo que se ejecuta al terminar la activity ejecutada por el startActivityForResult()
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            // resultcode contiene la informacion de si la actividad se ejecuto correctamente
-            // requestCode se usa para identificar de donde se llama el codigo
-            // en este caso si pasa por los dos if se mostrara una toast con el mensaje enviado
-            if (requestCode == 1) {
-                if (resultCode == Activity.RESULT_OK) {
-                    String result = data.getStringExtra("resultado");
-                    Toast.makeText(ItemListActivity.this, result,
-                     Toast.LENGTH_SHORT).show();
-                }
+        // resultcode contiene la informacion de si la actividad se ejecuto correctamente
+        // requestCode se usa para identificar de donde se llama el codigo
+        // en este caso si pasa por los dos if se mostrara una toast con el mensaje enviado
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("resultado");
+                Toast.makeText(ItemListActivity.this, result,
+                        Toast.LENGTH_SHORT).show();
             }
-       }
+        }
     }
+}
