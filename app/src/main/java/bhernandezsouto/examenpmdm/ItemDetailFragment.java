@@ -1,6 +1,7 @@
 package bhernandezsouto.examenpmdm;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,7 +71,14 @@ public class ItemDetailFragment extends Fragment {
                 ItemListFragment frag = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
                 // Este if evalua si el fragment esta cargado en pantalla, si no lo esta cierra la activity
                 // y si lo esta (else) hace un set del texto dejandolo en blanco
+
+                // Para mandar un resultado a la activity anterior es necesario usar un intent
+                // En este caso con el PutExtra mandamos el "resultado" y su contenido y se manda
+                // y se cierra la actividad
                 if (frag == null || !frag.isInLayout()) {
+                    Intent intentResultado = new Intent();
+                    intentResultado.putExtra("resultado", "Activity Cerrada");
+                    getActivity().setResult(Activity.RESULT_OK, intentResultado);
                     getActivity().finish();
                 } else {
                     ((TextView) rootView.findViewById(R.id.item_detail)).setText("");

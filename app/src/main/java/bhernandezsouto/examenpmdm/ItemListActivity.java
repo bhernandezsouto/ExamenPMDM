@@ -1,5 +1,6 @@
 package bhernandezsouto.examenpmdm;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Toast;
 
 
 /**
@@ -92,7 +94,23 @@ public class ItemListActivity extends AppCompatActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
             detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
+
+            //De esta forma se queda a la espera de que la Activity que se llama termine y devuelva un resultado
+            startActivityForResult(detailIntent, 1);
         }
     }
-}
+    @Override
+    // Sobreescribimos el metodo que se ejecuta al terminar la activity ejecutada por el startActivityForResult()
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            // resultcode contiene la informacion de si la actividad se ejecuto correctamente
+            // requestCode se usa para identificar de donde se llama el codigo
+            // en este caso si pasa por los dos if se mostrara una toast con el mensaje enviado
+            if (requestCode == 1) {
+                if (resultCode == Activity.RESULT_OK) {
+                    String result = data.getStringExtra("resultado");
+                    Toast.makeText(ItemListActivity.this, result,
+                     Toast.LENGTH_SHORT).show();
+                }
+            }
+       }
+    }
