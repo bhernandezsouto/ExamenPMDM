@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import bhernandezsouto.examenpmdm.dummy.DummyContent;
@@ -57,7 +58,26 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
+
+
+        Button boton = (Button) rootView.findViewById(R.id.Borrar);//Buscamos el boton del fragment por id y lo guardamos en una variable de tipo boton
+        boton.setOnClickListener(new View.OnClickListener() {//Enlazamos el boton a un listener
+            @Override
+            //Metodo onClick del boton, esto se usara cada que se le haga click al boton
+            public void onClick(View v) {
+                //se recoge el fragment de la lista
+                ItemListFragment frag = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+                // Este if evalua si el fragment esta cargado en pantalla, si no lo esta cierra la activity
+                // y si lo esta (else) hace un set del texto dejandolo en blanco
+                if (frag == null || !frag.isInLayout()) {
+                    getActivity().finish();
+                } else {
+                    ((TextView) rootView.findViewById(R.id.item_detail)).setText("");
+                }
+
+            }
+        });
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
